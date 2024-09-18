@@ -3,9 +3,6 @@
 SoftUART::SoftUART(uint32_t tx_pin)
 : tx_pin_{tx_pin}
 {
-    gpio_init(tx_pin_);
-    gpio_set_dir(tx_pin_, GPIO_OUT);
-    gpio_put(tx_pin_, 1);
     reset(); // Also resets FSM.
 }
 
@@ -20,6 +17,7 @@ SoftUART::~SoftUART()
 
 void SoftUART::cleanup()
 {
+    reset_fsm();
     gpio_deinit(tx_pin_);
 }
 
@@ -93,6 +91,8 @@ void SoftUART::update()
 
 void SoftUART::reset()
 {
+    gpio_init(tx_pin_);
+    gpio_set_dir(tx_pin_, GPIO_OUT);
     gpio_put(tx_pin_, 1);
     reset_fsm();
 }
