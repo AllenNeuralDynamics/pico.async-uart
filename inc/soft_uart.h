@@ -18,11 +18,15 @@ public:
         IDLE
     };
 
+    SoftUART(uint32_t gpio_pin);
+
     SoftUART(uint32_t gpio_pin, uint32_t baud_rate);
 
     ~SoftUART();
 
     void send(uint8_t* data, size_t num_bytes);
+
+    inline void set_baud_rate(uint32_t baud_rate);
 
     inline bool is_busy();
 
@@ -47,6 +51,11 @@ private:
 };
 
 // Inline function definitions
+
+void SoftUART::set_baud_rate(uint32_t baud_rate)
+{
+    baud_interval_us_ = 1'000'000UL / baud_rate;
+}
 
 bool SoftUART::requires_update()
 {

@@ -1,13 +1,18 @@
 #include <soft_uart.h>
 
-SoftUART::SoftUART(uint32_t tx_pin, uint32_t baud_rate)
+SoftUART::SoftUART(uint32_t tx_pin)
 : tx_pin_{tx_pin}
 {
-    baud_interval_us_ = 1'000'000UL / baud_rate;
     gpio_init(tx_pin_);
     gpio_set_dir(tx_pin_, GPIO_OUT);
     gpio_put(tx_pin_, 1);
     reset(); // Also resets FSM.
+}
+
+SoftUART::SoftUART(uint32_t tx_pin, uint32_t baud_rate)
+:SoftUART(tx_pin)
+{
+    set_baud_rate(baud_rate);
 }
 
 SoftUART::~SoftUART()
