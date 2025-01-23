@@ -2,6 +2,9 @@
 #define SOFT_UART_H
 
 #include <pico/stdlib.h>
+#if defined(DEBUG)
+#include <cstdio>
+#endif
 
 /**
  * \brief an 8N1 Software-based UART implemented with timers.
